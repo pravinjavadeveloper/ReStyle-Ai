@@ -1,13 +1,13 @@
 # ReStyle-Ai
 Clothing AI
 
-cd backend
+cd backend -->
 node server.js
 
 Create new terminal
-cd frontend
+cd frontend -->
 npx expo start --clear
 
 Create new terminal
-cd ai-engine
+cd ai-engine -->
 uvicorn main:app --reload --port 8000
