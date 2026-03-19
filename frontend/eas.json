@@ -1,0 +1,33 @@
+{
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://13.48.71.124:5000",
+        "EXPO_PUBLIC_AI_URL": "http://13.48.71.124:8000"
+      }
+    },
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://13.48.71.124:5000",
+        "EXPO_PUBLIC_AI_URL": "http://13.48.71.124:8000"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://13.48.71.124:5000",
+        "EXPO_PUBLIC_AI_URL": "http://13.48.71.124:8000"
+      }
+    }
+  }
+}

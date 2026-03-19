@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "352977123984",
+    "project_id": "houseofrevera-889be",
+    "storage_bucket": "houseofrevera-889be.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352977123984:android:988c2a39de0f3404653615",
+        "android_client_info": {
+          "package_name": "com.hkf.frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2ZwFylcno0zRv8RleD1qsA_NI20xCbkY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
