@@ -41,3 +41,4 @@ export const imgUrl = (path?: string) => {
 
 export const STRIPE_PUBLISHABLE_KEY =
   process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY || "pk_test_51T4p4nLA8lZgHO0AUyw1QQCiSrIqVcOKdmlKpCKcBjGWtmnuIMntxsozEjTo7rDEwVfKmdkZ1XZ07dmFKnPp8V3d00Hl4lO2L8";
+  
