@@ -41,6 +41,7 @@ export async function setupPushOrWebNotifications(userId: string) {
   // 🌐 WEB → skip push token
   // =============================
   if (Platform.OS === "web") {
+    console.log("WEB notifications enabled via polling (no expo token).");
     return { web: true };
   }
 
@@ -85,6 +86,7 @@ export async function setupPushOrWebNotifications(userId: string) {
       Constants?.easConfig?.projectId;
 
     if (!projectId) {
+      console.log("Missing EAS projectId");
       return { error: "Missing EAS projectId" };
     }
 
@@ -105,6 +107,7 @@ export async function setupPushOrWebNotifications(userId: string) {
 
     return { success: true, token, backend: res };
   } catch (e: any) {
+    console.log("setupPushOrWebNotifications error:", e?.message || e);
     return { error: "Failed to setup notifications" };
   }
 }

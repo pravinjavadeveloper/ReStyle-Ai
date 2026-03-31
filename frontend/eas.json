@@ -9,7 +9,7 @@
       "env": {
         "EXPO_PUBLIC_API_URL": "http://13.48.71.124:5000",
         "EXPO_PUBLIC_AI_URL": "http://13.48.71.124:8000",
-        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51T4p4nLA8lZgHO0AUyw1QQCiSrIqVcOKdmlKpCKcBjGWtmnuIMntxsozEjTo7rDEwVfKmdkZ1XZ07dmFKnPp8V3d00Hl4lO2L8"
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_live_51T4PvNEIvqm6S0SC0xeCNpK067OUP1WFIaRBu4LXaqOk7XtTX2Nial29T96Ynf8UFkP56tSJPeZLqNZYl1lEGuMx00itHzAuUw"
       }
     },
     "preview": {
@@ -19,7 +19,7 @@
       "env": {
         "EXPO_PUBLIC_API_URL": "http://13.48.71.124:5000",
         "EXPO_PUBLIC_AI_URL": "http://13.48.71.124:8000",
-        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51T4p4nLA8lZgHO0AUyw1QQCiSrIqVcOKdmlKpCKcBjGWtmnuIMntxsozEjTo7rDEwVfKmdkZ1XZ07dmFKnPp8V3d00Hl4lO2L8"
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_live_51T4PvNEIvqm6S0SC0xeCNpK067OUP1WFIaRBu4LXaqOk7XtTX2Nial29T96Ynf8UFkP56tSJPeZLqNZYl1lEGuMx00itHzAuUw"
       }
     },
     "production": {
@@ -29,7 +29,7 @@
       "env": {
         "EXPO_PUBLIC_API_URL": "http://13.48.71.124:5000",
         "EXPO_PUBLIC_AI_URL": "http://13.48.71.124:8000",
-        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51T4p4nLA8lZgHO0AUyw1QQCiSrIqVcOKdmlKpCKcBjGWtmnuIMntxsozEjTo7rDEwVfKmdkZ1XZ07dmFKnPp8V3d00Hl4lO2L8"
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_live_51T4PvNEIvqm6S0SC0xeCNpK067OUP1WFIaRBu4LXaqOk7XtTX2Nial29T96Ynf8UFkP56tSJPeZLqNZYl1lEGuMx00itHzAuUw"
       }
     }
   }

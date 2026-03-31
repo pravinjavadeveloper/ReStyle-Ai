@@ -26,6 +26,10 @@ api.interceptors.response.use(
   }
 );
 
+if (__DEV__) {
+  console.log("API_URL:", API_URL);
+  console.log("API URL:", process.env.EXPO_PUBLIC_API_URL);
+}
 
 /* =========================
    AUTH
@@ -54,7 +58,7 @@ export const signupUser = async (name: string, email: string, password: string, 
 //   try {
 //     const response = await api.post("/auth/login", { email, password });
 
-//     //  Register token immediately after login
+//     // ✅ Register token immediately after login
 //     const userId = String(response.data?.user?.id || "");
 //     if (userId) {
 //       tryRegisterPushTokenOnLogin(userId); // intentionally NOT awaited
@@ -414,7 +418,7 @@ const tokenRes = await Notifications.getExpoPushTokenAsync({ projectId });
     }
   } catch (e) {
     // Don't block login if notifications fail
-    console.warn("Push token register skipped:", e);
+    console.log("Push token register skipped:", e);
   }
 }
 
@@ -611,9 +615,13 @@ export async function requestPhoneOtp(userId: string, phone: string) {
   }
 }
 
-export async function verifyPhoneOtp(userId: string, phone: string, otp: string) {
+export async function verifyPhoneOtp(userId: string, phone: string, firebaseIdToken: string) {
   try {
-    const response = await api.post("/phone-verification/verify-otp", { userId, phone, otp });
+    const response = await api.post("/phone-verification/verify-otp", {
+      userId,
+      phone,
+      firebaseIdToken,
+    });
     return response.data;
   } catch (error: any) {
     return { error: error.response?.data?.error || error.friendlyMessage || "Failed to verify OTP" };
@@ -819,7 +827,7 @@ export async function getMySellerAddress(userId: string | number) {
 
 
 
-//  Stripe Connect APIs
+// ✅ Stripe Connect APIs
 
 export async function getStripeConnectStatus(userId: string) {
   const res = await fetch(`${API_URL}/stripe/connect/status/${userId}`);

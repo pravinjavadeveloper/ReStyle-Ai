@@ -29,6 +29,11 @@ import {
   stripeConnectOnboard,
   stripeConnectDashboard,
 } from "../services/api";
+import {
+  startFirebasePhoneOtp,
+  confirmFirebasePhoneOtp,
+  clearFirebasePhoneOtpSession,
+} from "../services/firebasePhoneAuth";
 
 const COLORS = {
   bg: "#FFFFFF",
@@ -277,10 +282,11 @@ export default function ProfileScreen() {
 
       const res = await requestPhoneOtp(userId, cleanedPhone);
       if (res?.error) {
-        Alert.alert("OTP failed", res.error || "Failed to send OTP");
+        Alert.alert("OTP failed", res.error || "Failed to start verification");
         return;
       }
 
+      await startFirebasePhoneOtp(cleanedPhone);
       setOtpSent(true);
       Alert.alert("OTP Sent", "We sent a verification code to your phone.");
     } catch {
@@ -311,7 +317,8 @@ export default function ProfileScreen() {
     try {
       setVerifyLoading(true);
 
-      const res = await verifyPhoneOtp(userId, cleanedPhone, otpCode.trim());
+      const firebaseRes = await confirmFirebasePhoneOtp(otpCode.trim());
+      const res = await verifyPhoneOtp(userId, cleanedPhone, firebaseRes.firebaseIdToken);
 
       if (res?.error) {
         Alert.alert("Verification failed", res.error || "Invalid code");
@@ -319,6 +326,7 @@ export default function ProfileScreen() {
       }
 
       setProfile((p) => (p ? { ...p, phone_verified: true, phone: cleanedPhone } : p));
+      clearFirebasePhoneOtpSession();
       setOtpSent(false);
       setOtpCode("");
 
@@ -456,7 +464,7 @@ export default function ProfileScreen() {
                   {name || "UNKNOWN"}
                 </Text>
                 <View style={styles.barcodeLine} />
-                <Text style={styles.idSerial}>UID: {(userId || "0").padStart(6, "0")}</Text>
+                <Text style={styles.idSerial}>UID: {(userId || "0").padStart(6, "0")} // STATUS: ACTIVE</Text>
               </View>
             </View>
 

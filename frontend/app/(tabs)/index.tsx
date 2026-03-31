@@ -876,7 +876,7 @@ export default function HomeScreen() {
               activeOpacity={0.9}
             >
               <ImageBackground
-  source={require("../../assets/images/c1.png")}
+  source={require('../../assets/images/c1.png')}
   style={styles.actionResellBg}
   imageStyle={{ resizeMode: "cover" }}
 >
@@ -901,10 +901,37 @@ export default function HomeScreen() {
                   Doorstep pickup for local charity & textile recycling.
                 </Text>
               </View>
-              <Image
-  source={require("../../assets/images/c2.png")}
+            <Image
+  source={require('../../assets/images/c2.png')}
   style={styles.actionDonateImg}
 />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{
+                marginTop: 12,
+                backgroundColor: "#fff",
+                paddingVertical: 10,
+                paddingHorizontal: 14,
+                borderRadius: 0,
+                borderWidth: 1,
+                borderColor: "#000",
+                alignSelf: "flex-start",
+              }}
+              onPress={async () => {
+const userId = await AsyncStorage.getItem("userId");
+const res = await registerPushToken(
+  String(userId),
+  "ExponentPushToken[TEST123]"
+);
+                console.log("TEST PUSH RESULT:", res);
+                Alert.alert("Test Result", JSON.stringify(res));
+              }}
+              activeOpacity={0.85}
+            >
+              <Text style={{ color: "#000", fontWeight: "900", letterSpacing: 0.6 }}>
+                TEST PUSH SAVE
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
