@@ -1,44 +1,35 @@
-// frontend/services/config.ts
 import { Platform } from "react-native";
 
-/**
- * 🔧 CHANGE ONLY HERE WHEN YOU DEPLOY
- *
- * WEB  → http://localhost:xxxx works
- * Android emulator → http://10.0.2.2:xxxx
- * Real phone → use your backend public URL (AWS)
- */
+const normalizeUrl = (value?: string) => String(value || "").trim().replace(/\/+$/, "");
 
-// Expo injects EXPO_PUBLIC_* only via process.env (no optional chaining)
-const ENV_API = process.env.EXPO_PUBLIC_API_URL as string | undefined;
-const ENV_AI = process.env.EXPO_PUBLIC_AI_URL as string | undefined;
+const ENV_API = normalizeUrl(process.env.EXPO_PUBLIC_API_URL);
+const ENV_AI = normalizeUrl(process.env.EXPO_PUBLIC_AI_URL);
+const ENV_STRIPE_KEY = String(process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY || "").trim();
 
-const LOCAL_API =
-  Platform.OS === "android"
-    ? "http://10.0.2.2:5000"
-    : "http://localhost:5000";
+if (!ENV_API) {
+  throw new Error("Missing EXPO_PUBLIC_API_URL. Set the production backend URL in your Expo env.");
+}
 
-const LOCAL_AI =
-  Platform.OS === "android"
-    ? "http://10.0.2.2:8000"
-    : "http://localhost:8000";
+if (!ENV_AI) {
+  throw new Error("Missing EXPO_PUBLIC_AI_URL. Set the production AI engine URL in your Expo env.");
+}
 
-export const API_URL = (ENV_API || LOCAL_API).replace(/\/+$/, "");
-export const AI_URL = (ENV_AI || LOCAL_AI).replace(/\/+$/, "");
+if (!ENV_STRIPE_KEY) {
+  throw new Error(
+    "Missing EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY. Set the production Stripe publishable key in your Expo env."
+  );
+}
 
-// ⏱️ Global axios timeout (used in api.ts)
+export const API_URL = ENV_API;
+export const AI_URL = ENV_AI;
 export const AXIOS_TIMEOUT = 50000;
+export const IS_WEB = Platform.OS === "web";
 
-/**
- * 🖼️ Helper to convert backend image path → full URL
- */
 export const imgUrl = (path?: string) => {
   if (!path) return "";
-  if (path.startsWith("http")) return path;
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
   const clean = path.replace(/\\/g, "/").replace(/^\/+/, "");
   return `${API_URL}/${clean}`;
 };
 
-export const STRIPE_PUBLISHABLE_KEY =
-  process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY || "pk_test_51T4p4nLA8lZgHO0AUyw1QQCiSrIqVcOKdmlKpCKcBjGWtmnuIMntxsozEjTo7rDEwVfKmdkZ1XZ07dmFKnPp8V3d00Hl4lO2L8";
-  
+export const STRIPE_PUBLISHABLE_KEY = ENV_STRIPE_KEY;

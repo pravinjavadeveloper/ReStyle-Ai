@@ -456,7 +456,7 @@ export default function ProfileScreen() {
                   {name || "UNKNOWN"}
                 </Text>
                 <View style={styles.barcodeLine} />
-                <Text style={styles.idSerial}>UID: {(userId || "0").padStart(6, "0")} // STATUS: ACTIVE</Text>
+                <Text style={styles.idSerial}>UID: {(userId || "0").padStart(6, "0")}</Text>
               </View>
             </View>
 

@@ -1,5 +1,5 @@
 // app/login.tsx
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -17,8 +17,8 @@ import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
-import PhoneInput from "react-native-phone-number-input";
 import Constants from "expo-constants";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 import { loginUser, signupUser, resendVerification } from "../services/api";
 import { NotoSerifDisplay_500Medium } from "@expo-google-fonts/noto-serif-display";
@@ -29,9 +29,7 @@ export default function LoginScreen() {
   const [isLogin, setIsLogin] = useState(true);
 
   const [name, setName] = useState("");
-  const [phoneRaw, setPhoneRaw] = useState("");
-  const [phoneFormatted, setPhoneFormatted] = useState("");
-  const phoneInputRef = useRef<PhoneInput>(null);
+  const [phone, setPhone] = useState("");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -57,6 +55,27 @@ export default function LoginScreen() {
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(
       String(value || "")
     );
+  };
+
+  const getValidatedPhone = (value: string) => {
+    const cleaned = String(value || "").trim();
+
+    if (!cleaned) {
+      return { isValid: false, formatted: "" };
+    }
+
+    const parsed =
+      parsePhoneNumberFromString(cleaned, "GB") ||
+      parsePhoneNumberFromString(cleaned);
+
+    if (!parsed || !parsed.isValid()) {
+      return { isValid: false, formatted: "" };
+    }
+
+    return {
+      isValid: true,
+      formatted: parsed.number, // E.164 format
+    };
   };
 
   const handleResend = async () => {
@@ -85,19 +104,25 @@ export default function LoginScreen() {
       return;
     }
 
+    let validatedPhone = "";
+
     if (!isLogin) {
       if (!name || String(name).trim().length < 2) {
         Alert.alert("Invalid Name", "Please enter your full name.");
         return;
       }
 
-      if (!phoneRaw || !phoneInputRef.current?.isValidNumber(phoneRaw)) {
+      const phoneResult = getValidatedPhone(phone);
+
+      if (!phoneResult.isValid) {
         Alert.alert(
           "Invalid Phone Number",
-          "Please enter a valid phone number and choose the correct country code."
+          "Please enter a valid phone number. Use country code if needed, for example +44."
         );
         return;
       }
+
+      validatedPhone = phoneResult.formatted;
 
       if (!isStrongPassword(password)) {
         Alert.alert(
@@ -121,7 +146,7 @@ export default function LoginScreen() {
           String(name || "").trim(),
           normalizedEmail,
           password,
-          phoneFormatted
+          validatedPhone
         );
       }
 
@@ -155,8 +180,7 @@ export default function LoginScreen() {
         setIsLogin(true);
         setEmailVerifiedState("unknown");
         setName("");
-        setPhoneRaw("");
-        setPhoneFormatted("");
+        setPhone("");
         setPassword("");
         return;
       }
@@ -174,16 +198,11 @@ export default function LoginScreen() {
         if (!isExpoGo) {
           const { setupPushOrWebNotifications } = await import("../services/push");
           await setupPushOrWebNotifications(String(result.user.id));
-        } else {
-          console.log("Skipping push registration in Expo Go");
         }
-      } catch (e) {
-        console.log("Push registration failed:", e);
-      }
+      } catch {}
 
       router.replace("/(tabs)");
-    } catch (e) {
-      console.log("Auth error:", e);
+    } catch {
       Alert.alert("Error", "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -230,32 +249,15 @@ export default function LoginScreen() {
                       onChangeText={setName}
                     />
 
-                    <View style={styles.phoneWrapper}>
-                      <PhoneInput
-                        ref={phoneInputRef}
-                        defaultCode="GB"
-                        layout="first"
-                        value={phoneRaw}
-                        onChangeText={(text) => setPhoneRaw(text)}
-                        onChangeFormattedText={(formatted) =>
-                          setPhoneFormatted(formatted || "")
-                        }
-                        withShadow={false}
-                        autoFocus={false}
-                        disableArrowIcon={false}
-                        containerStyle={styles.phoneContainer}
-                        textContainerStyle={styles.phoneTextContainer}
-                        textInputStyle={styles.phoneTextInput}
-                        codeTextStyle={styles.phoneCodeText}
-                        flagButtonStyle={styles.phoneFlagButton}
-                        countryPickerButtonStyle={styles.countryPickerButton}
-                        textInputProps={{
-                          placeholder: "Phone number",
-                          placeholderTextColor: "#B5B5B5",
-                          keyboardType: "phone-pad",
-                        }}
-                      />
-                    </View>
+                    <TextInput
+                      placeholder="Phone number (e.g. +44 7123 456789)"
+                      placeholderTextColor="#B5B5B5"
+                      style={styles.input}
+                      value={phone}
+                      onChangeText={setPhone}
+                      keyboardType="phone-pad"
+                      autoCapitalize="none"
+                    />
                   </>
                 )}
 
@@ -315,10 +317,15 @@ export default function LoginScreen() {
                 </View>
 
                 {!isLogin && (
-                  <Text style={styles.passwordHint}>
-                    Use at least 8 characters with uppercase, lowercase, number,
-                    and special character.
-                  </Text>
+                  <>
+                    <Text style={styles.phoneHint}>
+                      Enter a valid mobile number. Include country code like +44.
+                    </Text>
+                    <Text style={styles.passwordHint}>
+                      Use at least 8 characters with uppercase, lowercase, number,
+                      and special character.
+                    </Text>
+                  </>
                 )}
 
                 <TouchableOpacity
@@ -399,46 +406,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 
-  phoneWrapper: {
-    marginBottom: 12,
-  },
-  phoneContainer: {
-    width: "100%",
-    height: 52,
-    backgroundColor: "rgba(0,0,0,0.45)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.55)",
-    borderRadius: 0,
-    paddingLeft: 0,
-  },
-  phoneTextContainer: {
-    backgroundColor: "transparent",
-    paddingVertical: 0,
-    height: 50,
-  },
-  phoneTextInput: {
-    color: "#FFF",
-    fontSize: 15,
-    height: 50,
-    paddingVertical: 0,
-  },
-  phoneCodeText: {
-    color: "#FFF",
-    fontSize: 14,
-  },
-  phoneFlagButton: {
-    width: 58,
-    minWidth: 58,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  countryPickerButton: {
-    width: 58,
-    minWidth: 58,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
   verifiedText: {
     color: "#FFFFFF",
     fontSize: 12,
@@ -490,6 +457,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     height: "100%",
     justifyContent: "center",
+  },
+  phoneHint: {
+    color: "#CFCFCF",
+    fontSize: 11,
+    lineHeight: 16,
+    marginTop: -2,
+    marginBottom: 8,
+    opacity: 0.95,
   },
   passwordHint: {
     color: "#CFCFCF",

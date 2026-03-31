@@ -8,7 +8,8 @@
       },
       "env": {
         "EXPO_PUBLIC_API_URL": "http://13.48.71.124:5000",
-        "EXPO_PUBLIC_AI_URL": "http://13.48.71.124:8000"
+        "EXPO_PUBLIC_AI_URL": "http://13.48.71.124:8000",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51T4p4nLA8lZgHO0AUyw1QQCiSrIqVcOKdmlKpCKcBjGWtmnuIMntxsozEjTo7rDEwVfKmdkZ1XZ07dmFKnPp8V3d00Hl4lO2L8"
       }
     },
     "preview": {
@@ -17,7 +18,8 @@
       },
       "env": {
         "EXPO_PUBLIC_API_URL": "http://13.48.71.124:5000",
-        "EXPO_PUBLIC_AI_URL": "http://13.48.71.124:8000"
+        "EXPO_PUBLIC_AI_URL": "http://13.48.71.124:8000",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51T4p4nLA8lZgHO0AUyw1QQCiSrIqVcOKdmlKpCKcBjGWtmnuIMntxsozEjTo7rDEwVfKmdkZ1XZ07dmFKnPp8V3d00Hl4lO2L8"
       }
     },
     "production": {
@@ -26,7 +28,8 @@
       },
       "env": {
         "EXPO_PUBLIC_API_URL": "http://13.48.71.124:5000",
-        "EXPO_PUBLIC_AI_URL": "http://13.48.71.124:8000"
+        "EXPO_PUBLIC_AI_URL": "http://13.48.71.124:8000",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51T4p4nLA8lZgHO0AUyw1QQCiSrIqVcOKdmlKpCKcBjGWtmnuIMntxsozEjTo7rDEwVfKmdkZ1XZ07dmFKnPp8V3d00Hl4lO2L8"
       }
     }
   }

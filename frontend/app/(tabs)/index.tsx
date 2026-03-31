@@ -62,7 +62,7 @@ const AI_HELP_ICON = require("../../assets/Icons/rrr.png");
 // ==============================
 // ✅ PREMIUM CURVED TEXT COMPONENT (Pure RN, no SVGs required)
 // ==============================
-const CircularText = React.memo(() => {
+const CircularText = React.memo(function CircularText() {
   const spinAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -74,11 +74,13 @@ const CircularText = React.memo(() => {
         useNativeDriver: true,
       })
     );
+
     anim.start();
+
     return () => {
-      spinAnim.stopAnimation();
+      anim.stop();
     };
-  }, []);
+  }, [spinAnim]);
 
   const spin = spinAnim.interpolate({
     inputRange: [0, 1],
@@ -874,12 +876,10 @@ export default function HomeScreen() {
               activeOpacity={0.9}
             >
               <ImageBackground
-                source={{
-                  uri: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&q=80&w=600",
-                }}
-                style={styles.actionResellBg}
-                imageStyle={{ resizeMode: "cover" }}
-              >
+  source={require("../../assets/images/c1.png")}
+  style={styles.actionResellBg}
+  imageStyle={{ resizeMode: "cover" }}
+>
                 <View style={styles.actionResellOverlay} />
                 <View style={styles.actionResellContent}>
                   <Text style={styles.actionResellTitle}>RESELL IN 1 TAP</Text>
@@ -902,38 +902,9 @@ export default function HomeScreen() {
                 </Text>
               </View>
               <Image
-                source={{
-                  uri: "https://images.unsplash.com/photo-1612423284934-2850a4ea6b0f?auto=format&fit=crop&q=80&w=400",
-                }}
-                style={styles.actionDonateImg}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{
-                marginTop: 12,
-                backgroundColor: "#fff",
-                paddingVertical: 10,
-                paddingHorizontal: 14,
-                borderRadius: 0,
-                borderWidth: 1,
-                borderColor: "#000",
-                alignSelf: "flex-start",
-              }}
-              onPress={async () => {
-const userId = await AsyncStorage.getItem("userId");
-const res = await registerPushToken(
-  String(userId),
-  "ExponentPushToken[TEST123]"
-);
-                console.log("TEST PUSH RESULT:", res);
-                Alert.alert("Test Result", JSON.stringify(res));
-              }}
-              activeOpacity={0.85}
-            >
-              <Text style={{ color: "#000", fontWeight: "900", letterSpacing: 0.6 }}>
-                TEST PUSH SAVE
-              </Text>
+  source={require("../../assets/images/c2.png")}
+  style={styles.actionDonateImg}
+/>
             </TouchableOpacity>
 
             <TouchableOpacity

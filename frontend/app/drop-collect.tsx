@@ -18,6 +18,7 @@ import { Ionicons } from "@expo/vector-icons";
 //  HIGH-FASHION LOGISTICS PALETTE
 const COLORS = {
   bg: "#FFFFFF",
+  white: "#FFFFFF",
   black: "#000000",
   orange: "#FF4500", // Safety/Courier Orange for action
   border: "#E2E8F0",

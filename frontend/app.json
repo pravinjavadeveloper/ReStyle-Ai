@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "frontend",
+    "name": "House of Revera",
     "slug": "frontend",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,14 +8,14 @@
     "scheme": "frontend",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-"ios": {
-  "supportsTablet": true,
-  "bundleIdentifier": "com.hkf.frontend",
-  "infoPlist": {
-    "NSCameraUsageDescription": "RE-STYLE AI needs camera access to scan clothing items into your wardrobe.",
-    "NSPhotoLibraryUsageDescription": "RE-STYLE AI needs photo access so you can upload clothing items from your gallery."
-  }
-},
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.hkf.frontend",
+      "infoPlist": {
+        "NSCameraUsageDescription": "House of Revera needs camera access to scan clothing items into your wardrobe.",
+        "NSPhotoLibraryUsageDescription": "House of Revera needs photo access so you can upload clothing items from your gallery."
+      }
+    },
     "android": {
       "permissions": [
         "CAMERA",
@@ -37,29 +37,30 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-  "plugins": [
-  "expo-router",
-  "expo-notifications",
-  [
-    "expo-splash-screen",
-    {
-      "image": "./assets/images/splash-icon.png",
-      "imageWidth": 200,
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff",
-      "dark": { "backgroundColor": "#000000" }
-    }
-  ],
-  [
-    "@stripe/stripe-react-native",
-    {
-      "merchantIdentifier": "merchant.com.hkf.frontend",
-      "enableGooglePay": true
-    }
-  ],
-  "expo-font",
-  "./plugins/withCleartextTraffic"
-],
+    "plugins": [
+      "expo-router",
+      "expo-notifications",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "backgroundColor": "#000000"
+          }
+        }
+      ],
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.com.hkf.frontend",
+          "enableGooglePay": true
+        }
+      ],
+      "expo-font"
+    ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
